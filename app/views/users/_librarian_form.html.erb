@@ -1,0 +1,12 @@
+<div class="librarian_form">
+  <div class="field">
+    <%= form.label :library_id %>
+    <%= form.select :library_id, Library.active.collect{ |l| [ l.name, l.id] }, {}, style: "display:block;"%>
+  </div>
+  <% if current_user.present? %>
+  <div class="field">
+    <%= form.label :status %><br />
+    <%= form.select :status, ['unverified', 'verified'], {}, style: "display:block;"%>
+  </div>
+  <% end %>
+</div>

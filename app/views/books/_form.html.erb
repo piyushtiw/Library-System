@@ -1,0 +1,83 @@
+<%= form_with(model: book, local: true) do |form| %>
+  <% if book.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
+
+      <ul>
+      <% book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :isbn %>
+    <%= form.text_field :isbn %>
+  </div>
+
+
+  <% if policy(:book).create_book_any_library? %>
+    <%= form.label :library_id %>
+    <%= form.select :library_id, Library.active.collect{ |l| [ l.name, l.id] }, {}, style: "display:block;"%>
+  <% end %>
+
+  <% if policy(:book).create_book_in_his_library? %>
+    <%= form.label :library_id %>
+    <%= form.select :library_id, [[Library.find(library_id=current_user.library_id)['name'], current_user.library_id]], {}, style: "display:block;"%>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :number_of_copies %>
+    <%= form.text_field :number_of_copies %>
+  </div>
+
+  <div class="field">
+    <%= form.label :authors %>
+    <%= form.text_field :authors %>
+  </div>
+
+  <div class="field">
+    <%= form.label :language %>
+    <%= form.text_field :language %>
+  </div>
+
+  <div class="field">
+    <%= form.label :published_date %>
+    <%= form.text_field :published_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :edition %>
+    <%= form.text_field :edition %>
+  </div>
+
+  <div class="field">
+    <%= form.label :subject %>
+    <%= form.text_field :subject %>
+  </div>
+  <div class="field">
+    <%= form.label :special_collection %>
+    <%= form.select :special_collection, [false, true], {}, style: "display:block;"%>
+  </div>
+
+  <div class="field">
+    <%= form.label :summary %>
+    <%= form.text_field :summary %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cover_photo %>
+    <%= form.file_field :avatar %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit 'Save',  :class=>"waves-effect waves-light btn" %>
+  </div>
+<% end %>

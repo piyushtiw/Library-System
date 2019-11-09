@@ -1,0 +1,27 @@
+<%= form_with(model: @hold_request, local: true) do |form| %>
+  <% if @hold_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hold_request.errors.count, "error") %> prohibited this hold_request from being saved:</h2>
+
+      <ul>
+      <% @hold_request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :library_id %>
+    <%= form.select :library_id, @libraries.collect{ |l| [ l.name, l.id] }, {}, style: "display:block;"%>
+  </div>
+
+  <div class="field">
+    <%= form.label :book_id %>
+    <%= form.select :book_id, @books.collect{ |b| [ b.title, b.id] }, {}, style: "display:block;"%>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Save',  :class=>"waves-effect waves-light btn" %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<h5>User:
+  <%= User.find(@hold_request.user_id).name %>
+</h5>
+
+<h5>Book:
+  <%= Book.find(@hold_request.book_id).title %>
+</h5>
+
+<h5>Library:
+  <%= Library.find(@hold_request.library_id).name %>
+</h5>
+
+<h5>Request On:
+  <%= @hold_request.created_at %>
+</h5>
+
+
+<% if policy(:dashboard).can_update_hold_request? %>
+  <%= link_to 'Edit', edit_hold_request_path(@hold_request), :class=>"waves-effect waves-light btn" %>
+<% end %>
+
+<%= link_to 'Back', hold_requests_path, :class=>"waves-effect waves-light btn" %>

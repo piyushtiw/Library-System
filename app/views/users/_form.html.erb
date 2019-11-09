@@ -1,0 +1,121 @@
+<%= form_with(model: user, local: true) do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= form.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <% if !(@user.try(:education_level) || @user.try(:library_id)) %>
+    <div class="field user_type">
+      <%= form.label :user_type %><br />
+      <%= form.select :user_type, ['student', 'librerian'], {}, style: "display:block;"%>
+    </div>
+
+    <div id="librarian_form">
+      <%= render partial: "users/librarian_form", locals: {form: form} %>
+    </div>
+
+    <div id="student_form">
+      <%= render partial: "users/student_form", locals: {form: form} %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Save',  :class=>"waves-effect waves-light btn" %>
+    </div>
+
+  <% end %>
+
+  <% if @user.try(:library_id) %>
+
+    <div class="field">
+      <%= form.label :library_id %>
+      <%= form.select :library_id, Library.active.collect{ |l| [ l.name, l.id] }, {}, style: "display:block;"%>
+    </div>
+    <% if current_user.present? %>
+      <div class="field">
+        <%= form.label :status %><br />
+        <%= form.select :status, ['unverified', 'verified'], {}, style: "display:block;"%>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= form.submit 'Save',  :class=>"waves-effect waves-light btn" %>
+    </div>
+
+  <% end %>
+
+  <% if @user.try(:education_level) %>
+
+    <div class="field">
+      <%= form.label :education_level %><br />
+      <%= form.select :education_level, ['bachelor', 'master', 'phd'], {}, style: "display:block;" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :university_id %>
+      <%= form.select :university_id, University.active.collect{ |l| [ l.name, l.id] }, {}, style: "display:block;"%>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Save',  :class=>"waves-effect waves-light btn" %>
+    </div>
+
+  <% end %>
+
+
+<% end %>
+
+<script>
+    $("#user_user_type").change(function(){
+        if( $(this).val() == 'student'){
+            document.getElementById("student_form").style.display = "block";
+            document.getElementById("librarian_form").style.display = "none";
+        }
+        else{
+            document.getElementById("student_form").style.display = "none";
+            document.getElementById("librarian_form").style.display = "block";
+        }
+    });
+    $(document).ready(function(){
+        if( $(".user_type").val() == 'student'){
+            document.getElementById("student_form").style.display = "none";
+            document.getElementById("librarian_form").style.display = "none";
+        }
+        else{
+            document.getElementById("student_form").style.display = "none";
+            document.getElementById("librarian_form").style.display = "none";
+        }
+    });
+</script>
+
+
+

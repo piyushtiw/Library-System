@@ -1,0 +1,48 @@
+<h1>Editing Hold Request</h1>
+
+<%= form_with(model: @hold_request, local: true) do |form| %>
+  <% if @hold_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hold_request.errors.count, "error") %> prohibited this hold_request from being saved:</h2>
+
+      <ul>
+      <% @hold_request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <% if @libraries.present? %>
+  <div class="field">
+    <%= form.label :library_id %>
+    <%= form.select :library_id, @libraries.collect{ |l| [ l.name, l.id] }, {}, style: "display:block;"%>
+  </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :user_id, :value => current_user.id  %>
+  </div>
+  
+  <% if @books.present? %>
+    <div class="field">
+      <%= form.label :book_id %>
+      <%= form.select :book_id, @books.collect{ |b| [ b.title, b.id] }, {}, style: "display:block;"%>
+    </div>
+  <% end %>
+
+  <% if policy(:dashboard).can_allow_permission? %>
+    <div class="field">
+      <%= form.label :permission %><br />
+      <%= form.select :permission, [:unseen, :accepted, :denied], {}, style: "display:block;"%>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit 'Save',  :class=>"waves-effect waves-light btn" %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @hold_request, :class=>"waves-effect waves-light btn" %>
+<%= link_to 'Back', hold_requests_path, :class=>"waves-effect waves-light btn" %>
+

@@ -1,0 +1,20 @@
+<h5>Name:
+  <%= @library.name %>
+</h5>
+<h5>Location:
+  <%= @library.location %>
+</h5>
+<h5>university:
+  <%= @library.university.name %>
+</h5>
+<h5>Max Borrow Days:
+  <%= @library.max_borrow_days %>
+</h5>
+<h5>Fine:
+  <%= @library.fine %>
+</h5>
+
+<% if policy(:dashboard).can_update_library? %>
+  <%= link_to 'Edit', edit_library_path(@library), :class=>"waves-effect waves-light btn" %>
+<% end %>
+<%= link_to 'Back', libraries_path, :class=>"waves-effect waves-light btn" %>

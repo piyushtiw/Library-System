@@ -1,0 +1,73 @@
+<h1>New User</h1>
+
+<%= form_for @user, :url => '/users/make_new' do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= form.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field user_type">
+    <%= form.label :user_type %><br />
+    <%= form.select :user_type, ['student', 'librerian'], {}, { style: "display:block;", class: "user_user_type" } %>
+  </div>
+
+  <div id="student_form">
+    <%= render partial: "users/student_form", locals: {form: form} %>
+  </div>
+
+  <div id="librarian_form" style="display:none;">
+    <%= render partial: "users/librarian_form", locals: {form: form} %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Save', :class=>"waves-effect waves-light btn" %>
+  </div>
+
+
+<% end %>
+
+<%= link_to 'Back', users_path, :class=>"waves-effect waves-light btn" %>
+
+
+<script>
+  $(".user_user_type").change(function(){
+    if( $(this).val() == 'student'){
+      document.getElementById("student_form").style.display = "block";
+      document.getElementById("librarian_form").style.display = "none";
+    }
+    else{
+      document.getElementById("student_form").style.display = "none";
+      document.getElementById("librarian_form").style.display = "block";
+    }
+  });
+</script>

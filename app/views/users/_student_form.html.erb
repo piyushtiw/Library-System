@@ -1,0 +1,11 @@
+<div class="student_form">
+  <div class="field">
+    <%= form.label :education_level %><br />
+    <%= form.select :education_level, ['bachelor', 'master', 'phd'], {}, style: "display:block;" %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :university_id %>
+    <%= form.select :university_id, University.active.collect{ |l| [ l.name, l.id] }, {}, style: "display:block;"%>
+  </div>
+</div>

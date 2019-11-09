@@ -1,0 +1,40 @@
+<h1>Users</h1>
+
+<%= form_tag(users_path, method: :get) do %>
+  <%= hidden_field_tag(:status, 'unverified') %>
+  <%= submit_tag("Show Unverified Librarians", :class=>"waves-effect waves-light btn") %>
+  <%= link_to 'Show All', @user, :class=>"waves-effect waves-light btn" %>
+<% end %>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>S.No</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each_with_index do |user, index| %>
+      <% if !user.admin? %>
+      <tr>
+        <td><%= index+1 %></td>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.user_type %></td>
+        <td><%= link_to raw("<i class='material-icons'>visibility</i>"), user %></td>
+        <td><%= link_to raw("<i class='material-icons'>create</i>"), edit_user_path(user) %></td>
+        <td><%= link_to raw("<i class='material-icons'>delete_forever</i>"), user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<a href='<%= '/users/new' %>' class='waves-effect waves-light btn'>New User</a>

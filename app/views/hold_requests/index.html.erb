@@ -1,0 +1,41 @@
+<h1>Hold Requests</h1>
+<% if @hold_requests.size !=0 %>
+<table>
+  <thead>
+    <tr>
+      <th>S.No</th>
+      <th>Requested By</th>
+      <th>Book</th>
+      <th>Library</th>
+      <th>Request Date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @hold_requests.each_with_index do |hd, index| %>
+    <tr>
+      <td><%= index+1 %></td>
+      <td><%= hd.user.name %></td>
+      <td><%= hd.book.title %></td>
+      <td><%= hd.library.name %></td>
+      <td><%= hd.created_at %></td>
+      <td><%= link_to raw("<i class='material-icons'>list</i>"), hd %></td>
+      <td>
+        <% if policy(:dashboard).can_update_hold_request? %>
+          <%= link_to raw("<i class='material-icons'>create</i>"), edit_hold_request_path(hd) %>
+        <% end %>
+      </td>
+      <td><%= link_to raw("<i class='material-icons'>delete_forever</i>"), hd, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+<h6>No Hold Requests Yet.</h6>
+<% end %>
+<br>
+
+<% if policy(:dashboard).can_create_hold_request? %>
+  <a href='<%= new_hold_request_path %>' class='waves-effect waves-light btn'>New Hold Request</a>
+<% end %>

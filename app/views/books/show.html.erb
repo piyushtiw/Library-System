@@ -1,0 +1,58 @@
+<h5>Name:
+  <%= @book.title %>
+</h5>
+
+<h5>Isbn:
+  <%= @book.isbn %>
+</h5>
+
+<h5>Authors:
+  <%= @book.authors %>
+</h5>
+
+<h5>Language:
+  <%= @book.language %>
+</h5>
+
+<h5>Published Date:
+  <%= @book.published_date %>
+</h5>
+
+<h5>Edition:
+  <%= @book.edition %>
+</h5>
+
+<h5>Subject:
+  <%= @book.subject %>
+</h5>
+
+<h5>Summary:
+  <%= @book.summary %>
+</h5>
+
+<h5>Special Collection:
+  <%= @book.special_collection %>
+</h5>
+
+
+<% if @book.avatar.attached? %>
+  <h5>Cover photo</h5>
+  <image src="<%= url_for(@book.avatar) %>">
+<% end %>
+
+<% if policy(:book).edit_book? %>
+<%= link_to 'Edit', edit_book_path(@book), :class=>"waves-effect waves-light btn" %>
+<% end %>
+<%= link_to 'Back', books_path, :class=>"waves-effect waves-light btn" %>
+
+
+<% if current_user.user_type.eql? 'student' %>
+<% if @can_order %>
+  <h5>Order Book
+  <%= link_to 'Order', "orders/#{@book.id}/create", method: :post, :class=>"waves-effect waves-light btn" %>
+  </h5>
+<% else %>
+  <h5>Order Book</h5>
+  You can not order this book. Please raise a hold request by clicking <%= link_to 'here.', hold_requests_path %>
+<% end %>
+<% end %>

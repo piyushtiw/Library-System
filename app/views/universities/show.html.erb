@@ -1,0 +1,9 @@
+<h5>Name:
+  <%= @university.name %>
+</h5>
+
+
+<% if policy(:dashboard).can_update_library? %>
+  <%= link_to 'Edit', edit_university_path(@university), :class=>"waves-effect waves-light btn" %>
+<% end %>
+<%= link_to 'Back', universities_path, :class=>"waves-effect waves-light btn" %>

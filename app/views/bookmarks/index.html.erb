@@ -1,0 +1,37 @@
+<h1>Bookmarks</h1>
+<% if @bookmarks.size !=0 %>
+<table>
+  <thead>
+  <tr>
+    <th>S.No</th>
+    <th>Title</th>
+    <th>ISBN</th>
+    <th>Author</th>
+    <th>Available Books</th>
+    <th>Special Collection</th>
+    <th>Library Id</th>
+    <th colspan="2"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @bookmarks = Bookmark.where(:user_id=>current_user[:id]) %>
+  <% @bookmarks.each_with_index do |bookmark, index| %>
+    <tr>
+      <td><%= index+1 %></td>
+      <td><%= bookmark.book.title %></td>
+      <td><%= bookmark.book.isbn %></td>
+      <td><%= bookmark.book.authors %></td>
+      <td><%= bookmark.book.available_books %></td>
+      <td><%= bookmark.book.special_collection %></td>
+      <td><%= bookmark.book.library_id %></td>
+      <td><%= link_to raw("<i class='material-icons'>visibility</i>"), bookmark.book %></td>
+      <td><%= link_to 'Delete', bookmark, method: :delete, data: { confirm: 'Are you sure?' }  %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<% else %>
+<h6>No Bookmarks Yet.</h6>
+<% end %>
+<br>

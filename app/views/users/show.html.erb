@@ -1,0 +1,33 @@
+<h5>First name:
+  <%= @user.first_name %>
+</h5>
+
+<h5>Last name:
+  <%= @user.last_name %>
+</h5>
+
+<h5>Email:
+  <%= @user.email %>
+</h5>
+
+<% if @user.student? %>
+  <h5>University:
+    <%= University.find(@user.university_id).name rescue "NCSU" %>
+  </h5>
+
+  <h5>Education:
+    <%= @user.education_level %>
+  </h5>
+<% end %>
+
+
+<% if @user.librerian? %>
+  <h5>Library:
+    <%= Library.find(@user.library_id).name rescue "Hunt" %>
+  </h5>
+<% end %>
+
+
+
+<%= link_to 'Edit', edit_user_path(@user), :class=>"waves-effect waves-light btn" %>
+<%= link_to 'Back', users_path, :class=>"waves-effect waves-light btn" %>

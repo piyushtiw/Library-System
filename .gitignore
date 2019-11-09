@@ -1,0 +1,7 @@
+tmp/*
+.DS_STORE
+log/*
+.idea/*
+db/development.sqlite3
+db/test.sqlite3
+3.ruby-version
